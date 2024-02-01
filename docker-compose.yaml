@@ -1,0 +1,21 @@
+services:
+  palguybuddydude:
+    image: go-reflex:local
+    container_name: palguybuddydude
+    env_file:
+      - ./.env
+    volumes:
+      - .:/app
+
+  palworld-rcon-buddy:
+      image: "valamidev/palworld-rcon-buddy:latest"
+      container_name: palworld-rcon-buddy
+      environment:
+        PALWORLD_SERVER_IP_ADDRESS: "172.30.79.80" # This is how you can refference the palworld container
+        PALWORLD_RCON_PORT: "25575"
+        PALWORLD_RCON_PASSWORD: "thatsbonkersmate" # RCON Password
+        INFO_CACHE_DURATION_MS: 5000 # By Default /info end-point is cached for 5 seconds
+        BEARER_TOKEN: "ESYY3jtiqj1m1JVgTfmrS4V7xdfzQX8mTYfgLZOpYW8KKWADiklhUKiQbpBgQzOJ"
+        PORT: 3000 # RCON-BUDDY port
+      ports:
+        - "3000:3000"
