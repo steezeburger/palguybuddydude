@@ -9,3 +9,6 @@ run:
 
 fmt:
   go fmt ./...
+
+docker-build:
+  docker buildx build -t palguybuddydude:local .
