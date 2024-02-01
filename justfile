@@ -12,3 +12,7 @@ fmt:
 
 docker-build:
   docker buildx build -t palguybuddydude:local .
+
+refresh:
+  docker-compose build
+  docker-compose restart
