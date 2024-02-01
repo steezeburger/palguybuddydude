@@ -13,7 +13,7 @@ services:
       environment:
         PALWORLD_SERVER_IP_ADDRESS: "localhostd" # This is how you can refference the palworld container
         PALWORLD_RCON_PORT: "25575"
-        PALWORLD_RCON_PASSWORD: "thatsbonkersmate" # RCON Password
+        PALWORLD_RCON_PASSWORD: "serveradminpassword" # RCON Password
         INFO_CACHE_DURATION_MS: 5000 # By Default /info end-point is cached for 5 seconds
         BEARER_TOKEN: "" # we're not using an endpoint that requires auth, so doesn't matter right now
         PORT: 3000 # RCON-BUDDY port
