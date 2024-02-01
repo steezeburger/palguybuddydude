@@ -1,11 +1,9 @@
 services:
   palguybuddydude:
-    image: go-reflex:local
+    build: .
     container_name: palguybuddydude
     env_file:
       - ./.env
-    volumes:
-      - .:/app
 
   palworld-rcon-buddy:
       image: "valamidev/palworld-rcon-buddy:latest"

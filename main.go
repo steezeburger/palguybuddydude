@@ -59,13 +59,13 @@ func notifyDiscord(webhookURL string, message string) error {
 func main() {
 	baseURL := os.Getenv("RCON_BUDDY_HOST")
 	apiURL := fmt.Sprintf("http://%s/info", baseURL)
-	webhookURL := os.Getenv("DISCORD_URL")
+	webhookURL := os.Getenv("DISCORD_WEBHOOK_URL")
 
 	ticker := time.NewTicker(15 * time.Second)
 	defer ticker.Stop()
 
 	previousPlayers := make(map[string]struct{})
-	initialFetch := true // Flag for the initial data fetch
+	initialFetch := true
 
 	for {
 		select {
@@ -77,7 +77,6 @@ func main() {
 			}
 
 			if initialFetch {
-				// Log the first response
 				log.Printf("Initial server info fetched: %+v", info)
 			}
 
@@ -107,7 +106,7 @@ func main() {
 
 			previousPlayers = currentPlayers
 			if initialFetch {
-				initialFetch = false // Update flag after initial fetch
+				initialFetch = false
 			}
 		}
 	}
