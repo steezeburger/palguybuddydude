@@ -1,6 +1,6 @@
 # palguybuddydude
 
-A go service that uses palworld-rcon-buddy api to ping for player info and notiify discord whenever players join or leave.
+A go service that uses palworld-rcon-buddy api to ping for player info and notify discord whenever players join or leave.
 
 ![](docs/example.png)
 
