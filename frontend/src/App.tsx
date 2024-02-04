@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   return (
-    <div className="App">
+    <div className="has-text-centered is-size-1">
       Nice
     </div>
   )
