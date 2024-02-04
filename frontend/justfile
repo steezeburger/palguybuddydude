@@ -1,0 +1,14 @@
+default:
+  @just --list
+
+set dotenv-load
+set fallback
+
+run:
+  npm run start
+
+build:
+  npm run build
+
+test:
+  CI=true npm run test

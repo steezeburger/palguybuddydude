@@ -2,6 +2,7 @@ default:
   @just --list
 
 set dotenv-load
+set fallback
 
 # run go binary
 run:
