@@ -66,7 +66,7 @@ func main() {
 	ticker := time.NewTicker(15 * time.Second)
 	defer ticker.Stop()
 
-	previousPlayers := make(map[string]struct{})
+	previousPlayers := make(map[string]Player)
 	initialFetch := true
 
 	for {
@@ -84,11 +84,11 @@ func main() {
 
 			log.Printf("Current players: %+v", info.Players)
 
-			currentPlayers := make(map[string]struct{})
+			currentPlayers := make(map[string]Player)
 			for _, player := range info.Players {
-				currentPlayers[player.SteamID] = struct{}{}
+				currentPlayers[player.PlayerUID] = player
 				if !initialFetch {
-					if _, exists := previousPlayers[player.SteamID]; !exists {
+					if _, exists := previousPlayers[player.PlayerUID]; !exists {
 						message := fmt.Sprintf("Player joined: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
 							log.Printf("Failed to send Discord notification: %v", err)
@@ -98,9 +98,9 @@ func main() {
 			}
 
 			if !initialFetch {
-				for player := range previousPlayers {
-					if _, exists := currentPlayers[player]; !exists {
-						message := fmt.Sprintf("Player left: %s", player)
+				for uid, player := range previousPlayers {
+					if _, exists := currentPlayers[uid]; !exists {
+						message := fmt.Sprintf("Player left: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
 							log.Printf("Failed to send Discord notification: %v", err)
 						}
