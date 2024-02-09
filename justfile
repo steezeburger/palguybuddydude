@@ -14,5 +14,9 @@ docker-build:
   docker buildx build -t palguybuddydude:local .
 
 refresh:
+  docker-compose stop
   docker-compose build
-  docker-compose restart
+  docker-compose up -d
+
+logs:
+  docker-compose logs -f

@@ -61,6 +61,8 @@ func main() {
 	apiURL := fmt.Sprintf("http://%s/info", baseURL)
 	webhookURL := os.Getenv("DISCORD_WEBHOOK_URL")
 
+	log.Printf("Starting palguybuddydude!")
+
 	ticker := time.NewTicker(15 * time.Second)
 	defer ticker.Stop()
 
@@ -80,11 +82,13 @@ func main() {
 				log.Printf("Initial server info fetched: %+v", info)
 			}
 
+			log.Printf("Current players: %+v", info.Players)
+
 			currentPlayers := make(map[string]struct{})
 			for _, player := range info.Players {
-				currentPlayers[player.Name] = struct{}{}
+				currentPlayers[player.SteamID] = struct{}{}
 				if !initialFetch {
-					if _, exists := previousPlayers[player.Name]; !exists {
+					if _, exists := previousPlayers[player.SteamID]; !exists {
 						message := fmt.Sprintf("Player joined: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
 							log.Printf("Failed to send Discord notification: %v", err)
