@@ -61,10 +61,12 @@ func main() {
 	apiURL := fmt.Sprintf("http://%s/info", baseURL)
 	webhookURL := os.Getenv("DISCORD_WEBHOOK_URL")
 
+	log.Printf("Starting palguybuddydude!")
+
 	ticker := time.NewTicker(15 * time.Second)
 	defer ticker.Stop()
 
-	previousPlayers := make(map[string]struct{})
+	previousPlayers := make(map[string]Player)
 	initialFetch := true
 
 	for {
@@ -80,11 +82,18 @@ func main() {
 				log.Printf("Initial server info fetched: %+v", info)
 			}
 
-			currentPlayers := make(map[string]struct{})
+			log.Printf("Current players: %+v", info.Players)
+
+			currentPlayers := make(map[string]Player)
 			for _, player := range info.Players {
-				currentPlayers[player.Name] = struct{}{}
+				// NOTE - i think this fixes the issue where there's a duplicate user
+				if player.PlayerUID == "00000000" {
+					log.Printf("Skipping fake duplicate player: %+v", player)
+					continue
+				}
+				currentPlayers[player.PlayerUID] = player
 				if !initialFetch {
-					if _, exists := previousPlayers[player.Name]; !exists {
+					if _, exists := previousPlayers[player.PlayerUID]; !exists {
 						message := fmt.Sprintf("Player joined: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
 							log.Printf("Failed to send Discord notification: %v", err)
@@ -94,9 +103,13 @@ func main() {
 			}
 
 			if !initialFetch {
-				for player := range previousPlayers {
-					if _, exists := currentPlayers[player]; !exists {
-						message := fmt.Sprintf("Player left: %s", player)
+				for uid, player := range previousPlayers {
+					if player.PlayerUID == "00000000" {
+						log.Printf("Skipping fake duplicate user: %+v", player)
+						continue
+					}
+					if _, exists := currentPlayers[uid]; !exists {
+						message := fmt.Sprintf("Player left: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
 							log.Printf("Failed to send Discord notification: %v", err)
 						}

@@ -22,6 +22,17 @@ A go service that uses palworld-rcon-buddy api to ping for player info and notif
 
 * `docker-compose up -d`
 
+## Upgrading
+
+You can upgrade by pulling the latest code, stopping the service, rebuilding the image, and starting the service again.
+
+```bash
+git pull origin main
+docker-compose stop
+docker-compose build
+docker-compose up -d
+```
+
 ## How it works
 
 The service uses the `palworld-rcon-buddy` api to get the player list and then compares it with the previous list to see if any players have joined or left. If any players have joined or left, it sends a discord webhook notification.
