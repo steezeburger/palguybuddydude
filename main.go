@@ -86,6 +86,11 @@ func main() {
 
 			currentPlayers := make(map[string]Player)
 			for _, player := range info.Players {
+				// NOTE - i think this fixes the issue where there's a duplicate user
+				if player.PlayerUID == "00000000" {
+					log.Printf("Skipping fake duplicate player: %+v", player)
+					continue
+				}
 				currentPlayers[player.PlayerUID] = player
 				if !initialFetch {
 					if _, exists := previousPlayers[player.PlayerUID]; !exists {
@@ -99,6 +104,10 @@ func main() {
 
 			if !initialFetch {
 				for uid, player := range previousPlayers {
+					if player.PlayerUID == "00000000" {
+						log.Printf("Skipping fake duplicate user: %+v", player)
+						continue
+					}
 					if _, exists := currentPlayers[uid]; !exists {
 						message := fmt.Sprintf("Player left: %s", player.Name)
 						if err := notifyDiscord(webhookURL, message); err != nil {
