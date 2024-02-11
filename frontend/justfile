@@ -12,3 +12,9 @@ build:
 
 test:
   CI=true npm run test
+
+lint:
+  npx @biomejs/biome lint .
+
+fmt:
+  npx @biomejs/biome format  . --write
