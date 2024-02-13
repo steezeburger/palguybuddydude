@@ -13,7 +13,6 @@ services:
     image: "valamidev/palworld-rcon-buddy:latest"
     container_name: palworld-rcon-buddy
     environment:
-      PALWORLD_RCON_PORT: "25575"
       INFO_CACHE_DURATION_MS: 5000 # By Default /info end-point is cached for 5 seconds
       BEARER_TOKEN: "" # we're not using an endpoint that requires auth, so doesn't matter right now
       PORT: 3000 # RCON-BUDDY port
