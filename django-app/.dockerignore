@@ -1,0 +1,6 @@
+# these can cause issues with the test runner when it is trying to collect the tests
+*.pyc
+**/__pycache__
+
+# allows installing pipenv dependencies locally in a virtual environment
+.venv
