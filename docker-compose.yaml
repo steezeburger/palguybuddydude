@@ -2,20 +2,21 @@ services:
   palguybuddydude:
     depends_on:
       - palworld-rcon-buddy
-    build: .
+    restart: unless-stopped
+    build: ./palguybuddydude/.
     container_name: palguybuddydude
     env_file:
-      - ./.env
+      - palguybuddydude/.env
 
   palworld-rcon-buddy:
-      image: "valamidev/palworld-rcon-buddy:latest"
-      container_name: palworld-rcon-buddy
-      environment:
-        PALWORLD_RCON_PORT: "25575"
-        INFO_CACHE_DURATION_MS: 5000 # By Default /info end-point is cached for 5 seconds
-        BEARER_TOKEN: "" # we're not using an endpoint that requires auth, so doesn't matter right now
-        PORT: 3000 # RCON-BUDDY port
-      env_file:
-        - ./.env
-      ports:
-        - "3000:3000"
+    restart: unless-stopped
+    image: "valamidev/palworld-rcon-buddy:latest"
+    container_name: palworld-rcon-buddy
+    environment:
+      INFO_CACHE_DURATION_MS: 5000 # By Default /info end-point is cached for 5 seconds
+      BEARER_TOKEN: "" # we're not using an endpoint that requires auth, so doesn't matter right now
+      PORT: 3000 # RCON-BUDDY port
+    env_file:
+      - palguybuddydude/.env
+    ports:
+      - "3000:3000"

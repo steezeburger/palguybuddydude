@@ -1,0 +1,48 @@
+default:
+  @just --list
+
+set dotenv-load
+set fallback
+
+default_port := "8000"
+
+# django admin
+dj +commands:
+  cd app && DJANGO_SETTINGS_MODULE=app.settings \
+  ../.venv/bin/python manage.py {{commands}}
+
+# run dev server
+run port=default_port:
+  cd app && DJANGO_SETTINGS_MODULE=app.settings \
+  ../.venv/bin/python manage.py runserver {{port}}
+
+# test
+test:
+  cd app && DJANGO_SETTINGS_MODULE=app.settings \
+  ../.venv/bin/pytest -m "not integration" --cov=.
+
+# generate a secret key for django
+generate-secret-key:
+  cd app && DJANGO_SETTINGS_MODULE=app.settings \
+  ../.venv/bin/python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+
+
+##################
+# Docker Compose #
+##################
+
+# django-admin via dcp container
+dcp-django-admin +commands:
+  docker-compose run --rm -w /code/app web /code/app/manage.py {{commands}}
+
+# bring up web app container
+dcp-run:
+  docker-compose up web
+
+# test in dcp container
+dcp-test:
+  docker-compose run --rm -w /code/app web pytest -m "not integration" --cov=. --verbose
+
+# generate a secret key using dcp container
+dcp-generate-secret-key:
+  docker-compose run --rm -w /code/app web python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'

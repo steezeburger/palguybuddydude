@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==5.0.2"
+django-extensions = "==3.2.3"
+psycopg2-binary = "==2.9.9"
+stringcase = "==1.2.0"
+
+[dev-packages]
+pytest = "==8.0.0"
+pytest-cov = "==4.1.0"
+pytest-django = "==4.8.0"
+factory-boy = "==3.3.0"
+
+[requires]
+python_version = "3.11.4"
