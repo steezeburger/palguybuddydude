@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     # own
     'core',
+    'palworld_core',
 ]
 
 MIDDLEWARE = [
